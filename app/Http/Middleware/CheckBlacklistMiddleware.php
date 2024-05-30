@@ -26,7 +26,7 @@ class CheckBlacklistMiddleware
 
             return $next($request);
         } catch (TokenExpiredException $e) {
-            
+
             $token = JWTAuth::getToken();
             if ($token) {
                 ActiveToken::where('token', $token)->delete();

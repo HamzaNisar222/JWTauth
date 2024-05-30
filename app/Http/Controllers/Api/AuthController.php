@@ -15,7 +15,7 @@ class AuthController extends Controller
 
         $user=User::createUser($request->all());
 
-        return Response::success($user,"provider User registration successful",201);
+        return Response::success("provider User registration successful",201);
     }
 
     public function login(Request $request)
@@ -46,16 +46,11 @@ class AuthController extends Controller
     {
         try {
             $token = JWTAuth::getToken();
-            $user = JWTAuth::parseToken()->authenticate(); // Retrieve authenticated user
-            // dd($user);
-
+            $user = JWTAuth::parseToken()->authenticate();
             JWTAuth::invalidate($token);
             $user->blacklistToken($token);
 
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Successfully logged out',
-            ]);
+            return Response::success('Provider Successfully logged out');
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',

@@ -27,7 +27,11 @@ Route::group(['middleware' => 'api'], function () {
         ->middleware(['Validation:login','Authorize']) // You can add 'CheckBlacklist' here if you really need it
         ->name('login');
 
+<<<<<<< HEAD
     Route::post('/logout', [AuthController::class, 'logout'])->middleware('blacklist')->name('logout');
+=======
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('blacklist');
+>>>>>>> main
 
     Route::get('/user', [AuthController::class, 'user']);
 });

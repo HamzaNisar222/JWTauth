@@ -3,6 +3,7 @@
 namespace App\Models;
 
 
+use Illuminate\Support\Carbon;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Contracts\JWTSubject;
@@ -128,4 +129,11 @@ class User extends Authenticatable implements JWTSubject
         $this->activeTokens()->create(['token' => $token]);
         return $token;
     }
+
+        /**
+     * Invalidate expired tokens and blacklist them.
+     *
+     * @return void
+     */
+
 }
