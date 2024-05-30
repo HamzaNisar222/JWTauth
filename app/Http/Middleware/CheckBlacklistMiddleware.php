@@ -32,8 +32,8 @@ class CheckBlacklistMiddleware
         $payload = JWTAuth::getPayload($token)->toArray();
         $expiration = $payload['exp'] ?? null;
 
+
         if ($expiration && time() > $expiration) {
-            // Token has expired, invalidate and blacklist it
             JWTAuth::invalidate($token);
             BlacklistedToken::create(['token' => $token]);
             return response()->json(['error' => 'Token has expired'], 401);
