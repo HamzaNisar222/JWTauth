@@ -24,21 +24,20 @@ class ResponseServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Response::macro('success', function($data, $message="",$status=200){
+        Response::macro('success', function ( $message = "", $status = 200) {
             return response()->json([
                'status' =>'success',
                'message' => $message,
-                'data' => $data,
             ], $status);
-        } );
+        });
 
-        Response::macro('error', function( $message="",$status=400){
+        Response::macro('error', function ($message = "Something went wrong", $status = 500) {
             return response()->json([
                'status' =>'error',
                'message' => $message,
-                // 'data' => $data,
+
             ], $status);
-        } );
+        });
 
         Response::macro('notFound', function ($message = 'Resource not found') {
             return response()->json([
@@ -47,13 +46,11 @@ class ResponseServiceProvider extends ServiceProvider
             ], 404);
         });
 
-
-        Response::macro('error', function($data, $message="something went wrong",$status=500){
+        Response::macro('methodNotAllowed', function ($message = 'Method not allowed') {
             return response()->json([
-               'status' =>'error',
-               'message' => $message,
-                'data' => $data,
-            ], $status);
-        } );
+                'status' => 'error',
+                'message' => $message,
+            ], 405);
+        });
     }
 }

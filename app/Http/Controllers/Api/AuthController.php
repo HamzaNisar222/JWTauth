@@ -52,10 +52,7 @@ class AuthController extends Controller
             JWTAuth::invalidate($token);
             $user->blacklistToken($token);
 
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Successfully logged out',
-            ]);
+            return Response::success('Provider Successfully logged out');
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',

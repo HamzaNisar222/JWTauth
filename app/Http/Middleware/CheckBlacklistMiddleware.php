@@ -21,14 +21,22 @@ class CheckBlacklistMiddleware
         // Retrieve the token from the request
         $token = JWTAuth::getToken();
 
-        // Check if the token is not present
         if (!$token) {
             return response()->json(['error' => 'Token not provided'], 400);
         }
 
-        // Check if the token is blacklisted
         if (BlacklistedToken::where('token', $token)->exists()) {
             return response()->json(['error' => 'Token is blacklisted'], 401);
+        }
+
+        $payload = JWTAuth::getPayload($token)->toArray();
+        $expiration = $payload['exp'] ?? null;
+
+        if ($expiration && time() > $expiration) {
+            // Token has expired, invalidate and blacklist it
+            JWTAuth::invalidate($token);
+            BlacklistedToken::create(['token' => $token]);
+            return response()->json(['error' => 'Token has expired'], 401);
         }
 
         return $next($request);
